@@ -3,27 +3,39 @@ import '../styles/calculator.css';
 
 export default function Calculator() {
 
-    const [result, setResult] = useState(0);
-    const [typed, setTyped] = useState("");
+    const [result, setResult] = useState("");
 
 
     const addToTyped = e => {
-        setTyped(parseInt(typed + e.target.value))
+        setResult(result + e.target.value);
+    };
+
+    const addParenthesis = () => {
+        if(!result.includes("(")) {
+            setResult(result + "*(")
+        } else {
+            setResult(result + ")")
+        }
     }
 
     const clearSession = () => {
-        setTyped("");
+        setResult("");
     };
+
+    const evaluate = () => {
+        // eslint-disable-next-line
+        setResult(eval(result))
+    }
 
     return (
         <div className="calculator-container">
             <div className="result-box">
-                {typed === "" ? "0" : typed.toLocaleString("en-US", {maximumFractionDigits:2})}
+                {result === "" ? "0" : result.toLocaleString("en-US", {maximumFractionDigits:2})}
             </div>
             <div className="ios-buttons">
                 {/* Row 1 */}
                 <button onClick={clearSession} className="grey">C</button>
-                <button className="grey">( )</button>
+                <button onClick={addParenthesis} className="grey">( )</button>
                 <button className="grey">%</button>
                 <button className="orange">÷</button>
 
@@ -31,7 +43,7 @@ export default function Calculator() {
                 <button onClick={addToTyped} className="darkgrey" value="7">7</button>
                 <button onClick={addToTyped} className="darkgrey" value="8">8</button>
                 <button onClick={addToTyped} className="darkgrey" value="9">9</button>
-                <button onClick={addToTyped} className="orange" value="✕">✕</button>
+                <button onClick={addToTyped} className="orange" value="*">✕</button>
 
                 {/* Row 3 */}
                 <button onClick={addToTyped} className="darkgrey" value="4">4</button>
@@ -49,7 +61,7 @@ export default function Calculator() {
                 <button className="darkgrey">+/-</button>
                 <button onClick={addToTyped} className="darkgrey">0</button>
                 <button className="darkgrey">.</button>
-                <button className="orange">=</button>
+                <button onClick={evaluate} className="orange">=</button>
             </div>
         </div>
     )
