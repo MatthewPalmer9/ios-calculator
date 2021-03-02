@@ -23,12 +23,18 @@ export default function Calculator() {
         setResult(joiner + e.target.value)
     }
 
-    const addParenthesis = () => {
-        if(!result.includes("(")) {
-            setResult(result + "*(")
-        } else {
-            setResult(result + ")")
+    const handleParenthesis = () => {
+        let newResult = result.split("");
+        let checker = newResult[newResult.length - 1]
+        let checkerTwoBack = newResult[newResult.length - 2]
+
+        
+        if(checkerTwoBack === "(" && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
+            setResult(result + ")");
+        } else if(checker !== "(") {
+            setResult(result + "*(");
         }
+        
     }
 
     const clearSession = () => {
@@ -48,7 +54,7 @@ export default function Calculator() {
             <div className="ios-buttons">
                 {/* Row 1 */}
                 <button onClick={clearSession} className="grey">C</button>
-                <button onClick={addParenthesis} className="grey">( )</button>
+                <button onClick={handleParenthesis} className="grey">( )</button>
                 <button className="grey">%</button>
                 <button onClick={handleOperator} className="orange" value="/">÷</button>
 
