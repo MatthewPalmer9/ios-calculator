@@ -50,8 +50,10 @@ export default function Calculator() {
         const itemCheck = endItem[endItem.length - 1];
         
         if(result.split("").includes("(") && itemCheck !== ")") {
+           // eslint-disable-line no-eval 
             setResult(eval(result + ")"))
         } else {
+           // eslint-disable-line no-eval
             setResult(eval(result))
         }
     }
