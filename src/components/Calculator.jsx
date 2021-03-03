@@ -26,15 +26,19 @@ export default function Calculator() {
     const handleParenthesis = () => {
         let newResult = result.split("");
         let checker = newResult[newResult.length - 1]
-        let checkerTwoBack = newResult[newResult.length - 2]
+        const leftPr = newResult.filter(i => i === "(").length;
+        const rightPr = newResult.filter(i => i === ")").length;
 
         
-        if(checkerTwoBack === "(" && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
-            setResult(result + ")");
-        } else if(checker !== "(") {
+        // Checks if the count of "(" and ")" are the same in 'result.split("")'. 
+        // If they are and the last character in 'result' is a number, add "*("
+        // If the count is not the same and moves to the second condition, add a ")"
+        // If neither condition is true, nothing happens by default when the "()" button is clicked
+        if(leftPr === rightPr && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
             setResult(result + "*(");
+        } else if(newResult.includes("(") && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
+            setResult(result + ")");
         }
-        
     }
 
     const clearSession = () => {
@@ -42,8 +46,14 @@ export default function Calculator() {
     };
 
     const evaluate = () => {
-        // eslint-disable-next-line
-        setResult(eval(result))
+        const endItem = result.split("");
+        const itemCheck = endItem[endItem.length - 1];
+        
+        if(result.split("").includes("(") && itemCheck != ")") {
+            setResult(eval(result + ")"))
+        } else {
+            setResult(eval(result))
+        }
     }
 
     return (
@@ -53,6 +63,7 @@ export default function Calculator() {
             </div>
             <div className="ios-buttons">
                 {/* Row 1 */}
+                {}
                 <button onClick={clearSession} className="grey">C</button>
                 <button onClick={handleParenthesis} className="grey">( )</button>
                 <button className="grey">%</button>
