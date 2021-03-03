@@ -49,7 +49,7 @@ export default function Calculator() {
         const endItem = result.split("");
         const itemCheck = endItem[endItem.length - 1];
         
-        if(result.split("").includes("(") && itemCheck != ")") {
+        if(result.split("").includes("(") && itemCheck !== ")") {
             setResult(eval(result + ")"))
         } else {
             setResult(eval(result))
