@@ -5,12 +5,13 @@ import '../styles/calculator.css';
 export default function Calculator() {
 
     const [result, setResult] = useState("");
+    const resultStringSplitter = result.split("");
+    const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
+    const leftParathesisCount = resultStringSplitter.filter(i => i === "(").length;
+    const rightParathesisCount = resultStringSplitter.filter(i => i === ")").length;
 
 
     const addToTyped = e => {
-        const string = result.split("");
-        const endOfString = string[string.length - 1];
-
         if(endOfString === ")") {
             setResult(result + "*" + e.target.value);
         } else {
@@ -18,33 +19,28 @@ export default function Calculator() {
         }
     };
 
-    const handleOperator = e => {
-        let newResult = result.split("");
-        let checker = newResult[newResult.length - 1]
+    const FlipNegPos = () => {
+        
+    }
 
+    const handleOperator = e => {
         // Checks if an operator already exists at the end of the operation
         // If it does, replace it with the one that was clicked
-        if(checker === "+" || checker === "-" || checker === "*" || checker === "/") {
-            newResult.pop()
+        if(endOfString === "+" || endOfString === "-" || endOfString === "*" || endOfString === "/") {
+            resultStringSplitter.pop()
         }
-        const joiner = newResult.join("")
+        const joiner = resultStringSplitter.join("")
         setResult(joiner + e.target.value)
     }
 
     const handleParenthesis = () => {
-        let newResult = result.split("");
-        let checker = newResult[newResult.length - 1]
-        const leftPr = newResult.filter(i => i === "(").length;
-        const rightPr = newResult.filter(i => i === ")").length;
-
-        
         // Checks if the count of "(" and ")" are the same in 'result.split("")'. 
         // If they are and the last character in 'result' is a number, add "*("
         // If the count is not the same and moves to the second condition, add a ")"
         // If neither condition is true, nothing happens by default when the "()" button is clicked
-        if(leftPr === rightPr && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
+        if(leftParathesisCount === rightParathesisCount && (endOfString === "0" || endOfString === "1" || endOfString === "2" || endOfString === "3" || endOfString === "4" || endOfString === "5" || endOfString === "6" || endOfString === "7" || endOfString === "8" || endOfString === "9")) {
             setResult(result + "*(");
-        } else if(newResult.includes("(") && (checker === "0" || checker === "1" || checker === "2" || checker === "3" || checker === "4" || checker === "5" || checker === "6" || checker === "7" || checker === "8" || checker === "9")) {
+        } else if(resultStringSplitter.includes("(") && (endOfString === "0" || endOfString === "1" || endOfString === "2" || endOfString === "3" || endOfString === "4" || endOfString === "5" || endOfString === "6" || endOfString === "7" || endOfString === "8" || endOfString === "9")) {
             setResult(result + ")");
         }
     }
@@ -54,12 +50,7 @@ export default function Calculator() {
     };
 
     const evaluate = () => {
-        const endItem = result.split("");
-        const itemCheck = endItem[endItem.length - 1];
-        const leftParathesisCount = endItem.filter(i => i === "(").length;
-        const rightParathesisCount = endItem.filter(i => i === ")").length;
-        
-        if(endItem.includes("(") && !(leftParathesisCount === rightParathesisCount)) {
+        if(resultStringSplitter.includes("(") && !(leftParathesisCount === rightParathesisCount)) {
            // eslint-disable-line no-eval
             setResult(eval(result + ")"))
         } else {
@@ -100,7 +91,7 @@ export default function Calculator() {
                 <button onClick={handleOperator} className="orange" value="+">+</button>
 
                 {/* Row 5 */}
-                <button className="darkgrey">+/-</button>
+                <button onClick={FlipNegPos} className="darkgrey">+/-</button>
                 <button onClick={addToTyped} className="darkgrey">0</button>
                 <button className="darkgrey">.</button>
                 <button onClick={evaluate} className="orange">=</button>
