@@ -8,7 +8,14 @@ export default function Calculator() {
 
 
     const addToTyped = e => {
-        setResult(result + e.target.value);
+        const string = result.split("");
+        const endOfString = string[string.length - 1];
+
+        if(endOfString === ")") {
+            setResult(result + "*" + e.target.value);
+        } else {
+            setResult(result + e.target.value);
+        }
     };
 
     const handleOperator = e => {
@@ -49,9 +56,11 @@ export default function Calculator() {
     const evaluate = () => {
         const endItem = result.split("");
         const itemCheck = endItem[endItem.length - 1];
+        const leftParathesisCount = endItem.filter(i => i === "(").length;
+        const rightParathesisCount = endItem.filter(i => i === ")").length;
         
-        if(result.split("").includes("(") && itemCheck !== ")") {
-           // eslint-disable-line no-eval 
+        if(endItem.includes("(") && !(leftParathesisCount === rightParathesisCount)) {
+           // eslint-disable-line no-eval
             setResult(eval(result + ")"))
         } else {
            // eslint-disable-line no-eval
