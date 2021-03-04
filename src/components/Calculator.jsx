@@ -3,15 +3,12 @@ import React, { useState } from 'react';
 import '../styles/calculator.css';
 
 export default function Calculator() {
-
     const [result, setResult] = useState("");
-    const resultStringSplitter = result.split("");
-    const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
-    const leftParathesisCount = resultStringSplitter.filter(i => i === "(").length;
-    const rightParathesisCount = resultStringSplitter.filter(i => i === ")").length;
-
 
     const addToTyped = e => {
+        const resultStringSplitter = result.split("");
+        const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
+
         if(endOfString === ")") {
             setResult(result + "*" + e.target.value);
         } else {
@@ -24,6 +21,9 @@ export default function Calculator() {
     }
 
     const handleOperator = e => {
+        const resultStringSplitter = result.split("");
+        const endOfString = resultStringSplitter[resultStringSplitter.length - 1]
+
         // Checks if an operator already exists at the end of the operation
         // If it does, replace it with the one that was clicked
         if(endOfString === "+" || endOfString === "-" || endOfString === "*" || endOfString === "/") {
@@ -34,13 +34,18 @@ export default function Calculator() {
     }
 
     const handleParenthesis = () => {
+        const resultStringSplitter = result.split("");
+        const endOfString = resultStringSplitter[resultStringSplitter.length - 1]
+        const leftParenthesisCount = resultStringSplitter.filter(i => i === "(").length;
+        const rightParethesisCount = resultStringSplitter.filter(i => i === ")").length;
+        
         // Checks if the count of "(" and ")" are the same in 'result.split("")'. 
         // If they are and the last character in 'result' is a number, add "*("
         // If the count is not the same and moves to the second condition, add a ")"
         // If neither condition is true, nothing happens by default when the "()" button is clicked
-        if(leftParathesisCount === rightParathesisCount && (endOfString === "0" || endOfString === "1" || endOfString === "2" || endOfString === "3" || endOfString === "4" || endOfString === "5" || endOfString === "6" || endOfString === "7" || endOfString === "8" || endOfString === "9")) {
+        if(leftParenthesisCount === rightParethesisCount && (+endOfString < 10)) {
             setResult(result + "*(");
-        } else if(resultStringSplitter.includes("(") && (endOfString === "0" || endOfString === "1" || endOfString === "2" || endOfString === "3" || endOfString === "4" || endOfString === "5" || endOfString === "6" || endOfString === "7" || endOfString === "8" || endOfString === "9")) {
+        } else if(resultStringSplitter.includes("(") && (+endOfString < 10)) {
             setResult(result + ")");
         }
     }
@@ -50,11 +55,18 @@ export default function Calculator() {
     };
 
     const evaluate = () => {
-        if(resultStringSplitter.includes("(") && !(leftParathesisCount === rightParathesisCount)) {
-           // eslint-disable-line no-eval
+        const resultStringSplitter = result.split("");
+        const endOfString = resultStringSplitter[resultStringSplitter.length - 1]
+        const leftParathesisCount = resultStringSplitter.filter(i => i === "(").length;
+        const rightParathesisCount = resultStringSplitter.filter(i => i === ")").length;
+        
+        if(endOfString === "(") {
+            return;
+        } else if(!(leftParathesisCount === rightParathesisCount)) {
+            // eslint-disable-line no-eval
             setResult(eval(result + ")"))
         } else {
-           // eslint-disable-line no-eval
+            // eslint-disable-line no-eval
             setResult(eval(result))
         }
     }
