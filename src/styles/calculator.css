@@ -57,6 +57,18 @@
             color: white;
         }
 
+        .black-filler {
+            background-color: black;
+        }
+
+        .zero {
+            position: relative;
+            width: 175%!important;
+            height: 73.5% !important;
+            border-radius: 30px !important;
+            left: -35px;
+        }
+
 
 .result-box {
     display: flex;

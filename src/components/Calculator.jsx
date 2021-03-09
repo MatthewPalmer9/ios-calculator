@@ -12,33 +12,6 @@ export default function Calculator() {
         endOfString === ")" ? setResult(result + "*" + e.target.value) : setResult(result + e.target.value);
     };
 
-    const flipNegPos = () => {
-        const resultStringSplitter = result.split("(");
-        const stringWithParenthesis = result.split("");
-        const operatorArray = ["+", "-", "*", "/"];
-
-        // endOfString variables 
-        const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
-        const endOfStringIsAnOperator = operatorArray.includes(stringWithParenthesis[stringWithParenthesis.length - 1])
-        // Parenthesis counts
-        const leftParenthesisCount = stringWithParenthesis.filter(i => i === "(").length;
-        const rightParenthesisCount = stringWithParenthesis.filter(i => i === ")").length;
-        
-        /* 
-            Converts the number at the end of resultStringSplitter while
-            preserving the parenthesis in place if it initially existed.
-        */
-        if(endOfStringIsAnOperator) {
-            return;
-        } else if((leftParenthesisCount !== rightParenthesisCount) && typeof +endOfString === "number") {
-            resultStringSplitter.pop();
-            resultStringSplitter.push("(" + (+endOfString*-1).toString());
-            setResult(resultStringSplitter.join(""));
-        }
-
-        // string.split(string.split("").filter(i => i === "*"))
-    }
-
     const handleOperator = e => {
         const resultStringSplitter = result.split("");
         const endOfString = resultStringSplitter[resultStringSplitter.length - 1]
@@ -75,6 +48,21 @@ export default function Calculator() {
         }
     }
 
+    const handlePercentage = () => {
+        const resultStringSplitter = result.split("");
+        const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
+
+        if(result < 0) {
+            return;
+        };
+
+        if(resultStringSplitter.includes("(") && (+endOfString < 10)) {
+            setResult(eval(result + ")")/100)
+        } else {
+            setResult(eval(result)/100);
+        };
+    };
+
     const clearSession = () => {
         setResult("");
     };
@@ -101,7 +89,7 @@ export default function Calculator() {
                 {/* Row 1 */}
                 <button onClick={clearSession} className="grey">C</button>
                 <button onClick={handleParenthesis} className="grey">( )</button>
-                <button className="grey">%</button>
+                <button onClick={handlePercentage} className="grey">%</button>
                 <button onClick={handleOperator} className="orange" value="/">÷</button>
 
                 {/* Row 2 */}
@@ -123,8 +111,8 @@ export default function Calculator() {
                 <button onClick={handleOperator} className="orange" value="+">+</button>
 
                 {/* Row 5 */}
-                <button onClick={flipNegPos} className="darkgrey">+/-</button>
-                <button onClick={addToTyped} className="darkgrey" value="0">0</button>
+                <button className="black-filler"></button>
+                <button onClick={addToTyped} className="zero darkgrey" value="0">0</button>
                 <button onClick={addToTyped} className="darkgrey" value=".">.</button>
                 <button onClick={evaluate} className="orange">=</button>
             </div>
