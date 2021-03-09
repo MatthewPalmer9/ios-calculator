@@ -95,8 +95,7 @@ export default function Calculator() {
             return;
         } 
         
-        !(leftParethesisCount === rightParethesisCount) ? setResult(eval(result + ")")) : setResult(eval(result));
-
+        !(leftParethesisCount === rightParethesisCount) ? setResult(eval(result + ")").toString()) : setResult(eval(result).toString());
     }
 
     return (
