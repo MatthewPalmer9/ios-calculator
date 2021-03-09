@@ -17,6 +17,13 @@ export default function Calculator() {
         const endOfString = resultStringSplitter[resultStringSplitter.length - 1];
 
         endOfString === ")" ? setResult(result + "*" + e.target.value) : setResult(result + e.target.value);
+        // If the first input is 0 and the e.target.value is 0, do nothing. If not, add in the input.
+        (resultStringSplitter[0] === "0" && e.target.value === "0") ? setResult(result) : setResult(result + e.target.value);
+        if(resultStringSplitter[0] === "0" && e.target.value !== "0") {
+            resultStringSplitter.pop()
+            resultStringSplitter.push(e.target.value);
+            setResult(resultStringSplitter.join(""))
+        }
     };
 
     const handleOperator = e => {
