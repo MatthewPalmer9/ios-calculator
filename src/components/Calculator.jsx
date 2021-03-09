@@ -7,6 +7,7 @@ export default function Calculator() {
 
     const addToTyped = e => {
         const resultBox = document.querySelector(".result-box");
+
         result.length > 7 ? resultBox.style.fontSize = "2rem" : resultBox.style.fontSize = "3.5rem";
         if(result.length === 15) {
             alert("Cannot enter more than 15 digits."); 
@@ -30,6 +31,8 @@ export default function Calculator() {
         const resultStringSplitter = result.split("");
         const endOfString = resultStringSplitter[resultStringSplitter.length - 1]
         const operatorArray = ["+", "-", "*", "/"];
+
+        if(endOfString === "(") { return };
 
         /* 
             Checks if an operator already exists at the end of the operation
