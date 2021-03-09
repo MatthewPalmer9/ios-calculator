@@ -1,5 +1,6 @@
 /* eslint no-eval: 0 */
 import React, { useState } from 'react';
+import Result from './Result.jsx';
 import '../styles/calculator.css';
 
 export default function Calculator() {
@@ -33,6 +34,10 @@ export default function Calculator() {
         const operatorArray = ["+", "-", "*", "/"];
 
         if(endOfString === "(") { return };
+        if(result.length === 15) {
+            alert("Cannot enter more than 15 digits."); 
+            // return;
+        };
 
         /* 
             Checks if an operator already exists at the end of the operation
@@ -103,9 +108,7 @@ export default function Calculator() {
 
     return (
         <div className="calculator-container">
-            <div className="result-box">
-                {result === "" ? "0" : result.toLocaleString("en-US", {maximumFractionDigits:2})}
-            </div>
+            <Result result={result} />
             <div className="ios-buttons">
                 {/* Row 1 */}
                 <button onClick={clearSession} className="grey">C</button>
