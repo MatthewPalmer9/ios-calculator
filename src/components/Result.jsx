@@ -5,7 +5,7 @@ export default function Result(props) {
 
     return (
         <div className="result-box">
-            {result.current === "" ? "0" : result.current.toLocaleString("en-US", {maximumFractionDigits:2})}
+            {result === "" ? "0" : result.toLocaleString("en-US", {maximumFractionDigits:2})}
         </div>
     )
 }
